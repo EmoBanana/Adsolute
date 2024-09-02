@@ -1,0 +1,71 @@
+import React, { useEffect, useState } from "react";
+import "./LandingPage.css";
+
+const LandingPage = () => {
+  const [text, setText] = useState("");
+  const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isTyping, setIsTyping] = useState(true);
+  const [showingImage, setShowingImage] = useState(true);
+
+  const phrases = ["ADSOLUTE", "AD-FREE EXPERIENCE"];
+  const typingSpeed = 100; // Speed of typing in ms
+  const deletingSpeed = 50; // Speed of deleting in ms
+  const pauseTime = 2000; // Pause between phrases
+
+  useEffect(() => {
+    const currentPhrase = phrases[currentPhraseIndex];
+    let timer;
+
+    if (isTyping) {
+      // Typing phase
+      timer = setTimeout(() => {
+        setText(currentPhrase.substring(0, text.length + 1));
+        if (text.length + 1 === currentPhrase.length) {
+          setIsTyping(false);
+          setTimeout(() => setIsDeleting(true), pauseTime); // Pause before starting to delete
+        }
+      }, typingSpeed);
+    } else if (isDeleting) {
+      // Deleting phase
+      timer = setTimeout(() => {
+        setText(currentPhrase.substring(0, text.length - 1));
+        if (text.length === 0) {
+          setIsDeleting(false);
+          setIsTyping(true);
+          setCurrentPhraseIndex((currentPhraseIndex + 1) % phrases.length); // Move to next phrase
+        }
+      }, deletingSpeed);
+    }
+
+    return () => clearTimeout(timer);
+  }, [text, isTyping, isDeleting, currentPhraseIndex]);
+
+  const handleClick = () => {
+    setShowingImage(!showingImage); // Swap images on click
+  };
+
+  return (
+    <div className="landing-page">
+      <header className="site-header">
+        <h1 className="site-title">Adsolute.</h1>
+      </header>
+      <div className="content">
+        <div className="text-container">
+          <div className="static-text">WELCOME TO</div>
+          <div className="typing-text">{text}</div>
+          <div className="button">
+            <button className="connect-button">Connect Wallet</button>
+          </div>
+        </div>
+        <div className="connect-container">
+          <div className="player">
+            <img src="/Player.png" alt="Player"></img>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LandingPage;
