@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import WalletConnect from "./WalletConnect";
+import { useWallet } from "../WalletContext";
 import "./LandingPage.css";
 
 const LandingPage = () => {
+  const { walletAddress } = useWallet(); // Get wallet address from context
   const [text, setText] = useState("");
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -17,7 +19,7 @@ const LandingPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const phrases = ["ADSOLUTE", "AD-FREE EXPERIENCE"]; // Moved here
+    const phrases = ["ADSOLUTE", "AD-FREE STREAMING", "TOKENIZED AD STREAMING"];
     const currentPhrase = phrases[currentPhraseIndex];
     let timer;
 
@@ -41,7 +43,7 @@ const LandingPage = () => {
     }
 
     return () => clearTimeout(timer);
-  }, [text, isTyping, isDeleting, currentPhraseIndex]); // Removed phrases from dependency array
+  }, [text, isTyping, isDeleting, currentPhraseIndex]);
 
   const handleClick = () => {
     setIsFirstImage(!isFirstImage);
@@ -61,7 +63,12 @@ const LandingPage = () => {
           <div className="static-text">WELCOME TO</div>
           <div className="typing-text">{text}</div>
           <div className="button">
-            <WalletConnect onConnect={handleWalletConnect} />
+            {/* Render WalletConnect only if walletAddress is null */}
+            {walletAddress ? (
+              <p>Wallet Connected</p> // Optionally show a message if connected
+            ) : (
+              <WalletConnect onConnect={handleWalletConnect} />
+            )}
           </div>
         </div>
         <div className="connect-container" onClick={handleClick}>
