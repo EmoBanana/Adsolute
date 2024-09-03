@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import WalletConnect from "./WalletConnect";
 import "./LandingPage.css";
 
 const LandingPage = () => {
@@ -6,43 +8,47 @@ const LandingPage = () => {
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isTyping, setIsTyping] = useState(true);
-  const [showingImage, setShowingImage] = useState(true);
+  const [isFirstImage, setIsFirstImage] = useState(true);
 
-  const phrases = ["ADSOLUTE", "AD-FREE EXPERIENCE"];
-  const typingSpeed = 100; // Speed of typing in ms
-  const deletingSpeed = 50; // Speed of deleting in ms
-  const pauseTime = 2000; // Pause between phrases
+  const typingSpeed = 100;
+  const deletingSpeed = 50;
+  const pauseTime = 2000;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const phrases = ["ADSOLUTE", "AD-FREE EXPERIENCE"]; // Moved here
     const currentPhrase = phrases[currentPhraseIndex];
     let timer;
 
     if (isTyping) {
-      // Typing phase
       timer = setTimeout(() => {
         setText(currentPhrase.substring(0, text.length + 1));
         if (text.length + 1 === currentPhrase.length) {
           setIsTyping(false);
-          setTimeout(() => setIsDeleting(true), pauseTime); // Pause before starting to delete
+          setTimeout(() => setIsDeleting(true), pauseTime);
         }
       }, typingSpeed);
     } else if (isDeleting) {
-      // Deleting phase
       timer = setTimeout(() => {
         setText(currentPhrase.substring(0, text.length - 1));
         if (text.length === 0) {
           setIsDeleting(false);
           setIsTyping(true);
-          setCurrentPhraseIndex((currentPhraseIndex + 1) % phrases.length); // Move to next phrase
+          setCurrentPhraseIndex((currentPhraseIndex + 1) % phrases.length);
         }
       }, deletingSpeed);
     }
 
     return () => clearTimeout(timer);
-  }, [text, isTyping, isDeleting, currentPhraseIndex]);
+  }, [text, isTyping, isDeleting, currentPhraseIndex]); // Removed phrases from dependency array
 
   const handleClick = () => {
-    setShowingImage(!showingImage); // Swap images on click
+    setIsFirstImage(!isFirstImage);
+  };
+
+  const handleWalletConnect = () => {
+    navigate("/home");
   };
 
   return (
@@ -55,12 +61,17 @@ const LandingPage = () => {
           <div className="static-text">WELCOME TO</div>
           <div className="typing-text">{text}</div>
           <div className="button">
-            <button className="connect-button">Connect Wallet</button>
+            <WalletConnect onConnect={handleWalletConnect} />
           </div>
         </div>
-        <div className="connect-container">
-          <div className="player">
-            <img src="/Player.png" alt="Player"></img>
+        <div className="connect-container" onClick={handleClick}>
+          <div
+            className={`player ${
+              isFirstImage ? "first-image-active" : "second-image-active"
+            }`}
+          >
+            <img src="/Player2.png" alt="Img A" className="image image-A" />
+            <img src="/Player.png" alt="Img B" className="image image-B" />
           </div>
         </div>
       </div>

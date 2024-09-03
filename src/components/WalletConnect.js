@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
-const WalletConnect = () => {
-  const navigate = useNavigate();
+const WalletConnect = ({ onConnect }) => {
   const [walletConnected, setWalletConnected] = useState(false);
 
   useEffect(() => {
-    // Check if the wallet is already connected
     if (window.solana && window.solana.isPhantom) {
       window.solana.on("connect", () => {
         console.log(
@@ -14,28 +11,23 @@ const WalletConnect = () => {
           window.solana.publicKey.toString()
         );
         setWalletConnected(true);
+        onConnect(); // Trigger onConnect callback on successful connection
       });
       window.solana.on("disconnect", () => {
         setWalletConnected(false);
       });
     }
-  }, []);
+  }, [onConnect]);
 
   const connectWallet = async () => {
     if (window.solana && window.solana.isPhantom) {
       try {
-        // Check if already connected
-        if (walletConnected) {
-          console.log(
-            "Wallet already connected:",
-            window.solana.publicKey.toString()
-          );
-        } else {
-          // Request wallet connection
+        if (!walletConnected) {
           const response = await window.solana.connect();
           console.log("Connected to wallet:", response.publicKey.toString());
+          setWalletConnected(true);
+          onConnect(); // Trigger onConnect callback on successful connection
         }
-        navigate("/home");
       } catch (error) {
         console.error("Failed to connect to wallet:", error);
       }
@@ -45,9 +37,9 @@ const WalletConnect = () => {
   };
 
   return (
-    <div className="wallet-connect">
-      <button onClick={connectWallet}>Connect Wallet</button>
-    </div>
+    <button onClick={connectWallet} className="connect-button">
+      Connect Wallet
+    </button>
   );
 };
 
