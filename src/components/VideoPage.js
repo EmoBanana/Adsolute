@@ -39,16 +39,21 @@ const VideoPage = () => {
     },
   };
 
-  const adVideos = ["/Video1.mp4", "/Video4.mp4"];
+  const adVideos = ["/Video4.mp4", "/Video4.mp4"];
 
   const { src, title } = videoDetails[id] || {};
 
   useEffect(() => {
-    const storedAdCount = parseInt(localStorage.getItem("adCount"));
-    if (!adsPlayed && storedAdCount > 0) {
+    if (adCount === 0) {
+      // Directly play the main video if no ads are selected
+      videoRef.current.src = src;
+      videoRef.current.play().catch((error) => {
+        console.error("Main video playback error:", error);
+      });
+    } else if (!adsPlayed) {
       playAd(currentAdIndex);
     }
-  }, [adsPlayed, currentAdIndex]);
+  }, [adsPlayed, currentAdIndex, adCount, src]);
 
   const playAd = (index) => {
     if (index < adCount) {
@@ -102,7 +107,7 @@ const VideoPage = () => {
       <div className="video-page">
         {src ? (
           <>
-            {!adsPlayed && (
+            {!adsPlayed && adCount > 0 && (
               <video
                 ref={adVideoRef}
                 onEnded={handleAdEnded}
@@ -117,7 +122,7 @@ const VideoPage = () => {
               controls
               onPlay={handleMainVideoPlay}
               style={{
-                display: adsPlayed ? "block" : "none",
+                display: adsPlayed || adCount === 0 ? "block" : "none",
                 width: "100%",
                 height: "auto",
               }}
