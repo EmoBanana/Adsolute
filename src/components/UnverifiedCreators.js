@@ -1,14 +1,8 @@
 import React from "react";
+import Nav from "./Nav";
 
 const UnverifiedCreators = () => {
-  return (
-    <div className="unverified-creators">
-      <h2>Unverified Creators</h2>
-      <div className="video">
-        <h3>Unverified Video Title</h3>
-      </div>
-    </div>
-  );
+  return <Nav></Nav>;
 };
 
 export default UnverifiedCreators;
