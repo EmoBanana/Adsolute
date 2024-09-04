@@ -11,10 +11,16 @@ root.render(
   <React.StrictMode>
     <WalletProvider>
       {" "}
-      {/* Wrap App with WalletProvider */}
       <App />
     </WalletProvider>
   </React.StrictMode>
 );
+
+window.addEventListener("incrementTokenCount", () => {
+  const tokenCount = localStorage.getItem("tokenCount");
+  if (tokenCount !== null) {
+    localStorage.setItem("tokenCount", parseInt(tokenCount, 10) + 1);
+  }
+});
 
 reportWebVitals();

@@ -14,6 +14,7 @@
   font-family: "Lazydog";
   text-transform: uppercase;
   margin-top: 1.2rem;
+  cursor: pointer;
 }
 
 .search-bar-container {
@@ -89,7 +90,7 @@
 .wallet-menu {
   position: absolute;
   top: 100%;
-  right: 0.9rem;
+  right: 0.5rem;
   background-color: #f1e7d3;
   border: 2px solid #333;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);

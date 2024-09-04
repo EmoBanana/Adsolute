@@ -1,42 +1,132 @@
-import React, { useState } from "react";
-import { mintTokens, stakeTokens } from "../utils/solana";
+import React, { useState, useRef, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Nav from "./Nav";
+import { useWallet } from "../WalletContext"; // Import the wallet context
+import "./VideoPage.css";
 
 const VideoPage = () => {
-  const [likes, setLikes] = useState(0);
-  const [dislikes, setDislikes] = useState(0);
-  const [subscribed, setSubscribed] = useState(false);
+  const { id } = useParams();
+  const videoRef = useRef(null);
+  const adVideoRef = useRef(null);
+  const { walletAddress } = useWallet(); // Get wallet address from context
 
-  const handleLike = () => {
-    setLikes(likes + 1);
-    stakeTokens(1); // Deduct 1 token for liking
+  const [adCount, setAdCount] = useState(
+    parseInt(localStorage.getItem("adCount")) || 0
+  );
+  const [currentAdIndex, setCurrentAdIndex] = useState(0);
+  const [adsPlayed, setAdsPlayed] = useState(false);
+
+  const videoDetails = {
+    1: {
+      src: "/Video1.mp4",
+      title:
+        "[Insta-LOG] EP27 #YEJI #HONGKONG | ITZY 2ND WORLD TOUR 'BORN TO BE'",
+    },
+    2: {
+      src: "/Video2.mp4",
+      title:
+        "[Insta-LOG] EP26 #YUNA #TAIPEI | ITZY 2ND WORLD TOUR 'BORN TO BE'",
+    },
+    3: {
+      src: "/Video3.mp4",
+      title:
+        "[Insta-LOG] EP25 #CHAERYEONG #MANILA | ITZY 2ND WORLD TOUR 'BORN TO BE'",
+    },
+    4: {
+      src: "/Video4.mp4",
+      title:
+        "[Insta-LOG] EP24 #RYUJIN #TORONTO | ITZY 2ND WORLD TOUR 'BORN TO BE'",
+    },
   };
 
-  const handleDislike = () => {
-    setDislikes(dislikes + 1);
-    stakeTokens(1); // Deduct 1 token for disliking
+  const adVideos = ["/Video1.mp4", "/Video4.mp4"];
+
+  const { src, title } = videoDetails[id] || {};
+
+  useEffect(() => {
+    const storedAdCount = parseInt(localStorage.getItem("adCount"));
+    if (!adsPlayed && storedAdCount > 0) {
+      playAd(currentAdIndex);
+    }
+  }, [adsPlayed, currentAdIndex]);
+
+  const playAd = (index) => {
+    if (index < adCount) {
+      adVideoRef.current.src = adVideos[index];
+      adVideoRef.current.play().catch((error) => {
+        console.error("Ad playback error:", error);
+      });
+    }
   };
 
-  const handleSubscribe = () => {
-    setSubscribed(true);
-    stakeTokens(5); // Deduct 5 tokens for subscribing
+  const handleAdEnded = () => {
+    const nextAdIndex = currentAdIndex + 1;
+    if (nextAdIndex < adCount) {
+      setCurrentAdIndex(nextAdIndex);
+      playAd(nextAdIndex);
+    } else {
+      setAdsPlayed(true);
+      videoRef.current.src = src; // Set the main video source after ads
+      videoRef.current.play().catch((error) => {
+        console.error("Main video playback error:", error);
+      });
+
+      // Update the token count if wallet is connected
+      if (walletAddress) {
+        updateTokenCount();
+      }
+    }
   };
 
-  const handleWatchAd = () => {
-    mintTokens(2); // Mint 2 tokens for watching the ad
+  const updateTokenCount = () => {
+    if (!walletAddress) return; // Ensure walletAddress is present
+
+    const tokenData = JSON.parse(localStorage.getItem("walletTokenData")) || {};
+    const currentTokenCount = tokenData[walletAddress] || 0;
+    const newTokenCount = currentTokenCount + adCount; // Increment based on the number of ads watched
+
+    tokenData[walletAddress] = newTokenCount;
+    localStorage.setItem("walletTokenData", JSON.stringify(tokenData));
+    console.log("Token minted", newTokenCount); // Log updated token count
+  };
+
+  const handleMainVideoPlay = (e) => {
+    if (!adsPlayed && adCount > 0) {
+      e.preventDefault();
+      playAd(currentAdIndex);
+    }
   };
 
   return (
     <Nav>
       <div className="video-page">
-        <video src="/Video1.mp4" alt="Video1" controls></video>
-        <h2>Video Title</h2>
-        <button onClick={handleLike}>Like ({likes})</button>
-        <button onClick={handleDislike}>Dislike ({dislikes})</button>
-        <button onClick={handleSubscribe}>
-          {subscribed ? "Subscribed" : "Subscribe"}
-        </button>
-        <button onClick={handleWatchAd}>Watch Ad and Earn Tokens</button>
+        {src ? (
+          <>
+            {!adsPlayed && (
+              <video
+                ref={adVideoRef}
+                onEnded={handleAdEnded}
+                controls={false}
+                style={{ width: "100%", height: "auto" }}
+              />
+            )}
+            <video
+              ref={videoRef}
+              src={src}
+              alt={title}
+              controls
+              onPlay={handleMainVideoPlay}
+              style={{
+                display: adsPlayed ? "block" : "none",
+                width: "100%",
+                height: "auto",
+              }}
+            />
+            <h2>{title}</h2>
+          </>
+        ) : (
+          <p>Video not found</p>
+        )}
       </div>
     </Nav>
   );

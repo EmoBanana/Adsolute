@@ -6,15 +6,15 @@ import "./HomePage.css";
 const HomePage = () => {
   const navigate = useNavigate();
 
-  const handleVideoClick = () => {
-    navigate("/video/1");
+  const handleVideoClick = (id) => {
+    navigate(`/video/${id}`);
   };
 
   return (
     <Nav>
       <div className="home-content">
         <div className="video-row">
-          <div className="video" onClick={handleVideoClick}>
+          <div className="video" onClick={() => handleVideoClick(1)}>
             <img src="/Video1.jpg" alt="Video1" />
             <div className="title-container">
               <img src="/Creator1.jpg" alt="Creator1" className="creator" />
@@ -27,7 +27,7 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-          <div className="video" onClick={handleVideoClick}>
+          <div className="video" onClick={() => handleVideoClick(2)}>
             <img src="/Video2.jpg" alt="Video2" />
             <div className="title-container">
               <img src="/Creator1.jpg" alt="Creator1" className="creator" />
@@ -40,7 +40,7 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-          <div className="video" onClick={handleVideoClick}>
+          <div className="video" onClick={() => handleVideoClick(3)}>
             <img src="/Video3.jpg" alt="Video3" />
             <div className="title-container">
               <img src="/Creator1.jpg" alt="Creator1" className="creator" />
@@ -53,7 +53,7 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-          <div className="video" onClick={handleVideoClick}>
+          <div className="video" onClick={() => handleVideoClick(4)}>
             <img src="/Video4.jpg" alt="Video4" />
             <div className="title-container">
               <img src="/Creator1.jpg" alt="Creator1" className="creator" />

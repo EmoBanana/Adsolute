@@ -1,24 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useWallet } from "../WalletContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Nav.css";
 
 const Nav = ({ children }) => {
-  const { walletAddress, setWalletAddress } = useWallet();
+  const { walletAddress, setWalletAddress } = useWallet(); // Ensure setWalletAddress is correctly imported
   const [menuOpen, setMenuOpen] = useState(false);
+  const [adMenuOpen, setAdMenuOpen] = useState(false);
+  const [adCount, setAdCount] = useState(0);
+  const [tokenCount, setTokenCount] = useState(0); // State to manage the token count
   const navigate = useNavigate();
-  const location = useLocation(); // Get the current route
+  const location = useLocation();
+
+  useEffect(() => {
+    const savedAdCount = localStorage.getItem("adCount");
+    if (savedAdCount) {
+      setAdCount(parseInt(savedAdCount, 10));
+    }
+
+    if (walletAddress) {
+      // Retrieve token count specific to the wallet address
+      const tokenData =
+        JSON.parse(localStorage.getItem("walletTokenData")) || {};
+      setTokenCount(tokenData[walletAddress] || 0);
+    }
+  }, [walletAddress]);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const toggleAdMenu = () => {
+    setAdMenuOpen(!adMenuOpen);
+  };
+
   const handleDisconnect = async () => {
     if (window.solana && window.solana.isPhantom) {
       try {
-        console.log("Wallet disconnecting");
         await window.solana.disconnect();
-        setWalletAddress(null);
+        setWalletAddress(null); // Correct usage
         setMenuOpen(false);
         navigate("/");
       } catch (error) {
@@ -33,7 +53,7 @@ const Nav = ({ children }) => {
     if (window.solana && window.solana.isPhantom) {
       try {
         await window.solana.disconnect();
-        setWalletAddress(null);
+        setWalletAddress(null); // Correct usage
         setMenuOpen(false);
         navigate("/");
       } catch (error) {
@@ -44,16 +64,61 @@ const Nav = ({ children }) => {
     }
   };
 
-  // Determine the active route
+  const handleAdCountChange = (count) => {
+    if (count !== adCount) {
+      setAdCount(count);
+      localStorage.setItem("adCount", count); // Save the selected ad count
+      setAdMenuOpen(false);
+    }
+  };
+
   const currentPath = location.pathname;
 
   return (
     <div className="homepage">
       <header className="nav-bar">
-        <div className="site-title">Adsolute.</div>
+        <div className="site-title" onClick={() => navigate("/home")}>
+          Adsolute.
+        </div>
         <div className="search-bar-container">
           <input type="text" className="search-bar" placeholder="Search..." />
         </div>
+        <h1>{tokenCount} Tokens</h1> {/* Display token count */}
+        <button onClick={toggleAdMenu}>Ads</button>
+        {adMenuOpen && (
+          <div className="ad-menu">
+            <label>
+              <input
+                type="radio"
+                name="adCount"
+                value="0"
+                checked={adCount === 0}
+                onChange={() => handleAdCountChange(0)}
+              />
+              No Ads
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="adCount"
+                value="1"
+                checked={adCount === 1}
+                onChange={() => handleAdCountChange(1)}
+              />
+              One Ad
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="adCount"
+                value="2"
+                checked={adCount === 2}
+                onChange={() => handleAdCountChange(2)}
+              />
+              Two Ads
+            </label>
+          </div>
+        )}
         <button className="upload-button" onClick={() => navigate("/upload")}>
           Upload
         </button>
