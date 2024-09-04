@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { mintTokens, stakeTokens } from "../utils/solana";
+import Nav from "./Nav";
 
 const VideoPage = () => {
   const [likes, setLikes] = useState(0);
@@ -26,15 +27,18 @@ const VideoPage = () => {
   };
 
   return (
-    <div className="video-page">
-      <h2>Video Title</h2>
-      <button onClick={handleLike}>Like ({likes})</button>
-      <button onClick={handleDislike}>Dislike ({dislikes})</button>
-      <button onClick={handleSubscribe}>
-        {subscribed ? "Subscribed" : "Subscribe"}
-      </button>
-      <button onClick={handleWatchAd}>Watch Ad and Earn Tokens</button>
-    </div>
+    <Nav>
+      <div className="video-page">
+        <video src="/Video1.mp4" alt="Video1" controls></video>
+        <h2>Video Title</h2>
+        <button onClick={handleLike}>Like ({likes})</button>
+        <button onClick={handleDislike}>Dislike ({dislikes})</button>
+        <button onClick={handleSubscribe}>
+          {subscribed ? "Subscribed" : "Subscribe"}
+        </button>
+        <button onClick={handleWatchAd}>Watch Ad and Earn Tokens</button>
+      </div>
+    </Nav>
   );
 };
 
