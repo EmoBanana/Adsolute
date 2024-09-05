@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { useParams } from "react-router-dom";
 import Nav from "./Nav";
+import Popup from "./Popup"; // Import Popup component
 import { useWallet } from "../WalletContext";
 import "./VideoPage.css";
 
@@ -22,6 +23,11 @@ const VideoPage = () => {
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+  const [popupMode, setPopupMode] = useState("notification");
+  const [confirmAction, setConfirmAction] = useState(null);
 
   const videoDetails = {
     1: {
@@ -133,10 +139,20 @@ const VideoPage = () => {
     console.log("Token minted", newTokenCount);
   };
 
-  const confirmAction = (message, action) => {
-    if (window.confirm(message)) {
-      action();
-    }
+  const confirmPopup = (message, action, mode = "confirmation") => {
+    setPopupMessage(message);
+    setPopupMode(mode);
+    setConfirmAction(() => action);
+    setShowPopup(true);
+  };
+
+  const handlePopupConfirm = () => {
+    if (confirmAction) confirmAction();
+    setShowPopup(false);
+  };
+
+  const handlePopupCancel = () => {
+    setShowPopup(false);
   };
 
   const updateTokenCountAfterInteraction = (
@@ -169,7 +185,7 @@ const VideoPage = () => {
       console.log("Interaction successful. Tokens left:", newTokenCount);
       return true;
     } else {
-      alert("Not enough tokens for this action.");
+      confirmPopup("Not enough tokens for this action.", () => {});
       return false;
     }
   };
@@ -244,11 +260,11 @@ const VideoPage = () => {
 
   const handleLike = () => {
     if (isLiked) {
-      confirmAction("Do you want to remove your Like from this video?", () => {
+      confirmPopup("Do you want to remove your Like from this video?", () => {
         updateTokenCountAfterInteraction(0, "likedVideos", false);
       });
     } else {
-      confirmAction("Do you want to Like this video for 1 Token?", () => {
+      confirmPopup("Do you want to Like this video for 1 Token?", () => {
         updateTokenCountAfterInteraction(1, "likedVideos", true);
       });
     }
@@ -256,24 +272,30 @@ const VideoPage = () => {
 
   const handleDislike = () => {
     if (isDisliked) {
-      confirmAction(
+      confirmPopup(
         "Do you want to remove your Dislike from this video?",
         () => {
           updateTokenCountAfterInteraction(0, "dislikedVideos", false);
         }
       );
     } else {
-      confirmAction("Do you want to Dislike this video for 1 Token?", () => {
+      confirmPopup("Do you want to Dislike this video for 1 Token?", () => {
         updateTokenCountAfterInteraction(1, "dislikedVideos", true);
       });
     }
   };
 
   const handleSubscribe = () => {
-    if (!isSubscribed) {
-      confirmAction("Do you want to subscribe to ITZY for 1000 Token?", () => {
+    if (isSubscribed) {
+      confirmPopup("Do you want to unsubscribe from ITZY?", () => {
         updateTokenCountAfterInteraction(1000, "isSubscribed", true);
       });
+    } else {
+      confirmPopup(
+        "You are already subscribed to ITZY.",
+        () => {},
+        "notification"
+      );
     }
   };
 
@@ -329,7 +351,7 @@ const VideoPage = () => {
                   {isDisliked ? "Undislike" : "Dislike"}
                 </button>
                 <button onClick={handleSubscribe}>
-                  {isSubscribed ? "Subscribed" : "Subscribed"}
+                  {isSubscribed ? "Subscribe" : "Subscribed"}
                 </button>
               </div>
             </div>
@@ -338,6 +360,16 @@ const VideoPage = () => {
           <p>Video not found</p>
         )}
       </div>
+
+      {showPopup && (
+        <Popup
+          mode={popupMode}
+          message={popupMessage}
+          onConfirm={handlePopupConfirm}
+          onCancel={handlePopupCancel}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
     </Nav>
   );
 };

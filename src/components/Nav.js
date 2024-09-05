@@ -125,7 +125,10 @@ const Nav = ({ children }) => {
             </label>
           </div>
         )}
-        <button className="upload-button" onClick={() => navigate("/upload")}>
+        <button
+          className="upload-button"
+          onClick={() => navigate(`/channel/${walletAddress}`)}
+        >
           Upload
         </button>
         <div className="wallet-address-container">
