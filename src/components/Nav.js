@@ -4,25 +4,28 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./Nav.css";
 
 const Nav = ({ children }) => {
-  const { walletAddress, setWalletAddress } = useWallet(); // Ensure setWalletAddress is correctly imported
+  const { walletAddress, setWalletAddress } = useWallet();
   const [menuOpen, setMenuOpen] = useState(false);
   const [adMenuOpen, setAdMenuOpen] = useState(false);
   const [adCount, setAdCount] = useState(0);
-  const [tokenCount, setTokenCount] = useState(0); // State to manage the token count
+  const [tokenCount, setTokenCount] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     const savedAdCount = localStorage.getItem("adCount");
     if (savedAdCount) {
-      setAdCount(parseInt(savedAdCount, 10));
+      setAdCount(parseInt(savedAdCount, 10) || 0); // Ensure adCount is a number
     }
 
     if (walletAddress) {
       // Retrieve token count specific to the wallet address
       const tokenData =
         JSON.parse(localStorage.getItem("walletTokenData")) || {};
-      setTokenCount(tokenData[walletAddress] || 0);
+      const walletTokenData = tokenData[walletAddress] || {};
+
+      // Ensure tokenCount is a number
+      setTokenCount(walletTokenData.tokenCount || 0);
     }
   }, [walletAddress]);
 
@@ -38,7 +41,7 @@ const Nav = ({ children }) => {
     if (window.solana && window.solana.isPhantom) {
       try {
         await window.solana.disconnect();
-        setWalletAddress(null); // Correct usage
+        setWalletAddress(null);
         setMenuOpen(false);
         navigate("/");
       } catch (error) {
@@ -53,7 +56,7 @@ const Nav = ({ children }) => {
     if (window.solana && window.solana.isPhantom) {
       try {
         await window.solana.disconnect();
-        setWalletAddress(null); // Correct usage
+        setWalletAddress(null);
         setMenuOpen(false);
         navigate("/");
       } catch (error) {
@@ -83,10 +86,13 @@ const Nav = ({ children }) => {
         <div className="search-bar-container">
           <input type="text" className="search-bar" placeholder="Search..." />
         </div>
-        <h1>{tokenCount} Tokens</h1> {/* Display token count */}
-        <button onClick={toggleAdMenu}>Ads</button>
+        <h1 className="tokenCount">{Number(tokenCount)} Tokens</h1>{" "}
+        {/* Ensure tokenCount is a number */}
+        <button className="ads-button" onClick={toggleAdMenu}>
+          Ads
+        </button>
         {adMenuOpen && (
-          <div className="ad-menu">
+          <div className="ads-menu">
             <label>
               <input
                 type="radio"
@@ -166,7 +172,14 @@ const Nav = ({ children }) => {
           <button className="side-bar-button">Subscriptions</button>
           <div className="divider"></div>
           <div className="side-bar-title">You</div>
-          <button className="side-bar-button">Your Videos</button>
+          <button
+            className={`side-bar-button ${
+              currentPath === "/wallet" ? "active" : ""
+            }`}
+            onClick={() => navigate("/wallet")}
+          >
+            Your Videos
+          </button>
           <button className="side-bar-button">Liked Videos</button>
           <button className="side-bar-button">History</button>
           <div className="divider"></div>
