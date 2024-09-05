@@ -127,7 +127,11 @@ const Nav = ({ children }) => {
         )}
         <button
           className="upload-button"
-          onClick={() => navigate(`/channel/${walletAddress}`)}
+          onClick={() =>
+            navigate(`/channel/${walletAddress}`, {
+              state: { fromUpload: true },
+            })
+          }
         >
           Upload
         </button>
@@ -177,13 +181,20 @@ const Nav = ({ children }) => {
           <div className="side-bar-title">You</div>
           <button
             className={`side-bar-button ${
-              currentPath === "/wallet" ? "active" : ""
+              currentPath === `/channel/${walletAddress}` ? "active" : ""
             }`}
-            onClick={() => navigate("/wallet")}
+            onClick={() => navigate(`/channel/${walletAddress}`)}
           >
             Your Videos
           </button>
-          <button className="side-bar-button">Liked Videos</button>
+          <button
+            className={`side-bar-button ${
+              currentPath === "/liked" ? "active" : ""
+            }`}
+            onClick={() => navigate("/liked")}
+          >
+            Liked Videos
+          </button>
           <button className="side-bar-button">History</button>
           <div className="divider"></div>
           <div className="side-bar-title">Subscriptions</div>

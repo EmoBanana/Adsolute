@@ -34,21 +34,59 @@ const VideoPage = () => {
       src: "/Video1.mp4",
       title:
         "[Insta-LOG] EP27 #YEJI #HONGKONG | ITZY 2ND WORLD TOUR 'BORN TO BE'",
+      imgsrc: "/Creator1.jpg",
+      creator: "ITZY✅",
     },
     2: {
       src: "/Video2.mp4",
       title:
         "[Insta-LOG] EP26 #YUNA #TAIPEI | ITZY 2ND WORLD TOUR 'BORN TO BE'",
+      imgsrc: "/Creator1.jpg",
+      creator: "ITZY✅",
     },
     3: {
       src: "/Video3.mp4",
       title:
         "[Insta-LOG] EP25 #CHAERYEONG #MANILA | ITZY 2ND WORLD TOUR 'BORN TO BE'",
+      imgsrc: "/Creator1.jpg",
+      creator: "ITZY✅",
     },
     4: {
       src: "/Video4.mp4",
       title:
         "[Insta-LOG] EP24 #RYUJIN #TORONTO | ITZY 2ND WORLD TOUR 'BORN TO BE'",
+      imgsrc: "/Creator1.jpg",
+      creator: "ITZY✅",
+    },
+    5: {
+      src: "/Video5.mp4",
+      title: "ITZY「Algorhythm」JK Teaser YEJI pop ver.",
+      imgsrc: "/Creator2.jpg",
+      creator: "ITZY JAPAN OFFICIAL✅",
+    },
+    6: {
+      src: "/Video6.mp4",
+      title: "ITZY「Algorhythm」JK Teaser YUNA pop ver.",
+      imgsrc: "/Creator2.jpg",
+      creator: "ITZY JAPAN OFFICIAL✅",
+    },
+    7: {
+      src: "/Video7.mp4",
+      title: "ITZY「Algorhythm」JK Teaser CHAERYEONG pop ver.",
+      imgsrc: "/Creator2.jpg",
+      creator: "ITZY JAPAN OFFICIAL✅",
+    },
+    8: {
+      src: "/Video8.mp4",
+      title: "ITZY「Algorhythm」JK Teaser RYUJIN pop ver.",
+      imgsrc: "/Creator2.jpg",
+      creator: "ITZY JAPAN OFFICIAL✅",
+    },
+    9: {
+      src: "/Video9.mp4",
+      title: "YUNA FANCAM | ITZY 2ND WORLD TOUR 'BORN TO BE'",
+      imgsrc: "/Creator3.jpg",
+      creator: "Wenn",
     },
   };
 
@@ -132,7 +170,7 @@ const VideoPage = () => {
     const tokenData = JSON.parse(localStorage.getItem("walletTokenData")) || {};
     let userTokens = tokenData[walletAddress] || { tokenCount: 0 };
 
-    const newTokenCount = userTokens.tokenCount + 120000;
+    const newTokenCount = userTokens.tokenCount + adCount;
     userTokens.tokenCount = newTokenCount;
     tokenData[walletAddress] = userTokens;
     localStorage.setItem("walletTokenData", JSON.stringify(tokenData));
@@ -286,16 +324,33 @@ const VideoPage = () => {
   };
 
   const handleSubscribe = () => {
-    if (isSubscribed) {
-      confirmPopup("Do you want to unsubscribe from ITZY?", () => {
-        updateTokenCountAfterInteraction(1000, "isSubscribed", true);
-      });
+    if (id === "9") {
+      if (isSubscribed) {
+        confirmPopup(
+          "You are already subscribed to ITZY.",
+          () => {},
+          "notification"
+        );
+      } else {
+        confirmPopup(
+          "Do you want to Subscribe to Wenn for 1000 Tokens?",
+          () => {
+            updateTokenCountAfterInteraction(1000, "isSubscribed", true);
+          }
+        );
+      }
     } else {
-      confirmPopup(
-        "You are already subscribed to ITZY.",
-        () => {},
-        "notification"
-      );
+      if (isSubscribed) {
+        confirmPopup("Do you want to unsubscribe from ITZY?", () => {
+          updateTokenCountAfterInteraction(1000, "isSubscribed", false);
+        });
+      } else {
+        confirmPopup(
+          "You are already subscribed to ITZY.",
+          () => {},
+          "notification"
+        );
+      }
     }
   };
 
@@ -340,8 +395,12 @@ const VideoPage = () => {
             <h2>{videoDetail.title}</h2>
             <div className="videopage-actions">
               <div className="channel-info">
-                <img src="/Creator1.jpg" alt="Creator1" className="creator" />
-                <h1>ITZY✅</h1>
+                <img
+                  src={videoDetail.imgsrc}
+                  alt="thumbnail"
+                  className="creator"
+                />
+                <h1>{videoDetail.creator}</h1>
               </div>
               <div className="video-actions">
                 <button onClick={handleLike}>
@@ -351,7 +410,13 @@ const VideoPage = () => {
                   {isDisliked ? "Undislike" : "Dislike"}
                 </button>
                 <button onClick={handleSubscribe}>
-                  {isSubscribed ? "Subscribe" : "Subscribed"}
+                  {id === "9"
+                    ? isSubscribed
+                      ? "Subscribed"
+                      : "Subscribe"
+                    : isSubscribed
+                    ? "Subscribe"
+                    : "Subscribed"}
                 </button>
               </div>
             </div>

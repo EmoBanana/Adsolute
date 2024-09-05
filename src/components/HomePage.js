@@ -67,6 +67,48 @@ const HomePage = () => {
             </div>
           </div>
         </div>
+        <div className="video-row">
+          <div className="video" onClick={() => handleVideoClick(5)}>
+            <img src="/Video5.jpg" alt="Video5" />
+            <div className="title-container">
+              <img src="/Creator2.jpg" alt="Creator1" className="creator" />
+              <div className="title-container-text">
+                <h1>ITZY「Algorhythm」JK Teaser YEJI pop ver.</h1>
+                <h2>ITZY JAPAN OFFICIAL✅</h2>
+              </div>
+            </div>
+          </div>
+          <div className="video" onClick={() => handleVideoClick(6)}>
+            <img src="/Video6.jpg" alt="Video6" />
+            <div className="title-container">
+              <img src="/Creator2.jpg" alt="Creator1" className="creator" />
+              <div className="title-container-text">
+                <h1>ITZY「Algorhythm」JK Teaser YUNA pop ver.</h1>
+                <h2>ITZY JAPAN OFFICIAL✅</h2>
+              </div>
+            </div>
+          </div>
+          <div className="video" onClick={() => handleVideoClick(7)}>
+            <img src="/Video7.jpg" alt="Video7" />
+            <div className="title-container">
+              <img src="/Creator2.jpg" alt="Creator1" className="creator" />
+              <div className="title-container-text">
+                <h1>ITZY「Algorhythm」JK Teaser CHAERYEONG pop ver.</h1>
+                <h2>ITZY JAPAN OFFICIAL✅</h2>
+              </div>
+            </div>
+          </div>
+          <div className="video" onClick={() => handleVideoClick(8)}>
+            <img src="/Video8.jpg" alt="Video8" />
+            <div className="title-container">
+              <img src="/Creator2.jpg" alt="Creator1" className="creator" />
+              <div className="title-container-text">
+                <h1>ITZY「Algorhythm」JK Teaser RYUJIN pop ver.</h1>
+                <h2>ITZY JAPAN OFFICIAL✅</h2>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </Nav>
   );
