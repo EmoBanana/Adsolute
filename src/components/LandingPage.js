@@ -25,8 +25,9 @@ const LandingPage = () => {
 
     if (isTyping) {
       timer = setTimeout(() => {
-        setText(currentPhrase.substring(0, text.length + 1));
-        if (text.length + 1 === currentPhrase.length) {
+        const typedText = currentPhrase.substring(0, text.length + 1);
+        setText(typedText);
+        if (typedText.length === currentPhrase.length) {
           setIsTyping(false);
           setTimeout(() => setIsDeleting(true), pauseTime);
         }
@@ -45,6 +46,17 @@ const LandingPage = () => {
     return () => clearTimeout(timer);
   }, [text, isTyping, isDeleting, currentPhraseIndex]);
 
+  const formatText = (text) => {
+    return text.split("SOL").map((part, index) => (
+      <span key={index}>
+        {part}
+        {index < text.split("SOL").length - 1 && (
+          <span className="text-gradient">SOL</span>
+        )}
+      </span>
+    ));
+  };
+
   const handleClick = () => {
     setIsFirstImage(!isFirstImage);
   };
@@ -56,12 +68,14 @@ const LandingPage = () => {
   return (
     <div className="landing-page">
       <header className="site-header">
-        <h1 className="site-title">Adsolute.</h1>
+        <h1 className="site-title">
+          Ad<span className="text-gradient">SOL</span>ute.
+        </h1>
       </header>
       <div className="content">
         <div className="text-container">
           <div className="static-text">WELCOME TO</div>
-          <div className="typing-text">{text}</div>
+          <div className="typing-text">{formatText(text)}</div>
           <div className="button">
             {/* Render WalletConnect only if walletAddress is null */}
             {walletAddress ? (

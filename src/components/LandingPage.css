@@ -178,3 +178,10 @@
     transform: translate(0, 0); /* Brings it on top of the front image */
   }
 }
+
+.text-gradient {
+  background: linear-gradient(90deg, #9945ff, #14f195);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}

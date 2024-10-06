@@ -226,3 +226,10 @@
   background-color: #999;
   margin: 1rem 0;
 }
+
+.text-gradient {
+  background: linear-gradient(90deg, #9945ff, #14f195);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}

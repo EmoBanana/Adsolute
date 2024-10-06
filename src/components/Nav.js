@@ -81,7 +81,7 @@ const Nav = ({ children }) => {
     <div className="homepage">
       <header className="nav-bar">
         <div className="site-title" onClick={() => navigate("/home")}>
-          Adsolute.
+          Ad<span className="text-gradient">SOL</span>ute.
         </div>
         <div className="search-bar-container">
           <input type="text" className="search-bar" placeholder="Search..." />
