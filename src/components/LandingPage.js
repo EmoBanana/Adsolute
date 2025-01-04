@@ -103,8 +103,8 @@ const LandingPage = () => {
         <div className="slider">
           <div className="slider-item">Content Creator</div>
           <div className="slider-item">Content Creator</div>
-          <div className="slider-item">ITZY</div>
-          <div className="slider-item">ITZY Japan Official</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
           <div className="slider-item">Content Creator</div>
           <div className="slider-item">Content Creator</div>
           <div className="slider-item">Content Creator</div>
