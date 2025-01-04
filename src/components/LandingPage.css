@@ -165,16 +165,22 @@
 }
 
 @media (max-width: 1024px) {
+  .text-container {
+    width: 90%;
+  }
+
   .typing-text {
-    font-size: 4rem;
+    font-size: 5rem;
+    text-wrap: wrap;
   }
 
   .typing-text::after {
-    font-size: 4rem;
+    font-size: 5rem;
+    position: relative;
   }
 
   .static-text {
-    font-size: 3rem;
+    font-size: 4rem;
   }
 
   .connect-button {
@@ -184,16 +190,22 @@
 }
 
 @media (max-width: 768px) {
+  .text-container {
+    width: 90%;
+  }
+
   .typing-text {
     font-size: 3rem;
+    text-wrap: wrap;
   }
 
   .typing-text::after {
     font-size: 3rem;
+    position: relative;
   }
 
   .static-text {
-    font-size: 2.5rem;
+    font-size: 2.3rem;
   }
 
   .connect-button {
