@@ -5,12 +5,11 @@ import { useWallet } from "../WalletContext";
 import "./LandingPage.css";
 
 const LandingPage = () => {
-  const { walletAddress } = useWallet(); // Get wallet address from context
+  const { walletAddress } = useWallet();
   const [text, setText] = useState("");
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isTyping, setIsTyping] = useState(true);
-  const [isFirstImage, setIsFirstImage] = useState(true);
 
   const typingSpeed = 100;
   const deletingSpeed = 50;
@@ -47,18 +46,32 @@ const LandingPage = () => {
   }, [text, isTyping, isDeleting, currentPhraseIndex]);
 
   const formatText = (text) => {
-    return text.split("SOL").map((part, index) => (
-      <span key={index}>
-        {part}
-        {index < text.split("SOL").length - 1 && (
-          <span className="text-gradient">SOL</span>
-        )}
-      </span>
-    ));
-  };
+    // Split by the different words you want to format differently
+    const parts = text.split(/(SOL|AD-FREE|TOKENIZED)/);
 
-  const handleClick = () => {
-    setIsFirstImage(!isFirstImage);
+    return parts.map((part, index) => {
+      if (part === "SOL") {
+        return (
+          <span key={index} className="text-gradient">
+            SOL
+          </span>
+        );
+      } else if (part === "AD-FREE") {
+        return (
+          <span key={index} className="text-ad-free">
+            Ad-Free
+          </span>
+        );
+      } else if (part === "TOKENIZED") {
+        return (
+          <span key={index} className="text-tokenized">
+            Tokenized
+          </span>
+        );
+      } else {
+        return <span key={index}>{part}</span>;
+      }
+    });
   };
 
   const handleWalletConnect = () => {
@@ -77,23 +90,41 @@ const LandingPage = () => {
           <div className="static-text">WELCOME TO</div>
           <div className="typing-text">{formatText(text)}</div>
           <div className="button">
-            {/* Render WalletConnect only if walletAddress is null */}
+            {}
             {walletAddress ? (
-              <p>Wallet Connected</p> // Optionally show a message if connected
+              <p>Wallet Connected</p>
             ) : (
               <WalletConnect onConnect={handleWalletConnect} />
             )}
           </div>
         </div>
-        <div className="connect-container" onClick={handleClick}>
-          <div
-            className={`player ${
-              isFirstImage ? "first-image-active" : "second-image-active"
-            }`}
-          >
-            <img src="/Player2.png" alt="Img A" className="image image-A" />
-            <img src="/Player.png" alt="Img B" className="image image-B" />
-          </div>
+      </div>
+      <div className="slider-container">
+        <div className="slider">
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">ITZY</div>
+          <div className="slider-item">ITZY Japan Official</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
+          <div className="slider-item">Content Creator</div>
         </div>
       </div>
     </div>

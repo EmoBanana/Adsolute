@@ -32,22 +32,23 @@
   align-items: center;
   justify-content: center;
   flex-grow: 1;
+  padding-bottom: 5rem;
 }
 
 .text-container {
   text-align: left;
-  width: 32%;
+  width: 70%;
 }
 
 .static-text {
-  font-size: 3rem;
+  font-size: 4rem;
   font-weight: bold;
   color: #333;
   margin: 0;
 }
 
 .typing-text {
-  font-size: 3rem;
+  font-size: 6rem;
   font-weight: bold;
   color: #333;
   white-space: nowrap;
@@ -63,7 +64,7 @@
   right: 0;
   top: 0;
   font-family: "Lazydog";
-  font-size: 3rem;
+  font-size: 6rem;
   color: #333;
   animation: blink-caret 0.75s step-end infinite;
 }
@@ -86,7 +87,7 @@
   padding: 0.75rem 1.5rem;
   margin-top: 1rem;
   margin-left: 0.4rem;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-family: "Lazydog";
   font-weight: bold;
   text-transform: uppercase;
@@ -107,81 +108,131 @@
   box-shadow: none;
 }
 
-.connect-container {
-  position: relative;
-  width: 650px; /* Adjust according to your image size */
-  height: 650px; /* Adjust according to your image size */
-  perspective: 1000px;
-}
-
-.player {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.image {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.8s ease-in-out, z-index 0s step-end;
-}
-
-.image-A {
-  z-index: 2;
-}
-
-.image-B {
-  z-index: 1;
-}
-
-.first-image-active .image-A {
-  animation: moveFrontToBack 0.8s ease forwards;
-}
-
-.first-image-active .image-B {
-  animation: moveBackToFront 0.8s ease forwards;
-}
-
-.second-image-active .image-A {
-  animation: moveBackToFront 0.8s ease forwards;
-}
-
-.second-image-active .image-B {
-  animation: moveFrontToBack 0.8s ease forwards;
-}
-
-@keyframes moveFrontToBack {
-  0% {
-    transform: translate(0, 0);
-    z-index: 2;
-  }
-  100% {
-    transform: translate(15px, 15px); /* Slight offset to right and down */
-    z-index: 1;
-  }
-}
-
-@keyframes moveBackToFront {
-  0% {
-    transform: translate(20px, 20px);
-    z-index: 1;
-  }
-  50% {
-    transform: translate(430px, 0); /* Fully moves out to the right */
-    z-index: 1; /* Keeps z-index below during move out */
-  }
-  51% {
-    z-index: 2; /* Changes z-index only after moving out */
-  }
-  100% {
-    transform: translate(0, 0); /* Brings it on top of the front image */
-  }
-}
-
 .text-gradient {
   background: linear-gradient(90deg, #9945ff, #14f195);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
+}
+
+.text-ad-free {
+  color: #a776e4;
+}
+
+.text-tokenized {
+  color: #a776e4;
+}
+
+.slider-container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+  padding: 1rem 0;
+  background-color: #e5cb99;
+  border-top: 4px solid black;
+  border-bottom: 2px solid black;
+}
+
+.slider {
+  display: flex;
+  animation: scroll 30s linear infinite;
+  transition: animation-play-state 0.2s;
+}
+
+.slider-container:hover .slider {
+  animation-play-state: paused;
+}
+
+.slider-item {
+  font-size: 1.2rem;
+  font-weight: bold;
+  flex: 0 0 auto;
+  width: 16%;
+  margin-right: 10px;
+  background-color: transparent;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@media (max-width: 1024px) {
+  .typing-text {
+    font-size: 4rem;
+  }
+
+  .typing-text::after {
+    font-size: 4rem;
+  }
+
+  .static-text {
+    font-size: 3rem;
+  }
+
+  .connect-button {
+    font-size: 1.2rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .typing-text {
+    font-size: 3rem;
+  }
+
+  .typing-text::after {
+    font-size: 3rem;
+  }
+
+  .static-text {
+    font-size: 2.5rem;
+  }
+
+  .connect-button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .slider-item {
+    font-size: 1rem;
+    width: 25%;
+  }
+}
+
+@media (max-width: 480px) {
+  .text-container {
+    width: 90%;
+  }
+
+  .typing-text {
+    font-size: 3rem;
+    text-wrap: wrap;
+  }
+
+  .typing-text::after {
+    font-size: 3rem;
+    position: relative;
+  }
+
+  .static-text {
+    font-size: 2.3rem;
+  }
+
+  .connect-button {
+    font-size: 1rem;
+    padding: 0.3rem 0.7rem;
+  }
+
+  .slider-item {
+    font-size: 0.8rem;
+    width: 36%;
+  }
 }
