@@ -1,6 +1,6 @@
 # For Superteam Earn
-Recording - https://drive.google.com/file/d/1skP72fyQrpXlo0OzueEHkFuehZ65FBJb/view?usp=sharing
-Documentation - https://drive.google.com/file/d/1zKg-ZZQTHQ0AwLa-hKN8ZeuLrBGCdquX/view?usp=sharing
+- Recording: https://drive.google.com/file/d/1skP72fyQrpXlo0OzueEHkFuehZ65FBJb/view?usp=sharing
+- Documentation: https://drive.google.com/file/d/1zKg-ZZQTHQ0AwLa-hKN8ZeuLrBGCdquX/view?usp=sharing
 
 # Adsolute
 
