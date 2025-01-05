@@ -1,3 +1,7 @@
+# For Superteam Earn
+Recording - https://drive.google.com/file/d/1skP72fyQrpXlo0OzueEHkFuehZ65FBJb/view?usp=sharing
+Documentation - https://drive.google.com/file/d/1zKg-ZZQTHQ0AwLa-hKN8ZeuLrBGCdquX/view?usp=sharing
+
 # Adsolute
 
 Adsolute is redefining the video streaming experience by giving "Adsolute" power back to the users. Traditional video platforms are bombarding users with disruptive ads, reducing the overall viewing experience. Imagine creating a problem and selling the solution back to you. With **Adsolute**, it's win or win. You get to choose whether you want to enjoy ad-free videos or earn something in return by watching ads. 
