@@ -46,7 +46,6 @@ const LandingPage = () => {
   }, [text, isTyping, isDeleting, currentPhraseIndex]);
 
   const formatText = (text) => {
-    // Split by the different words you want to format differently
     const parts = text.split(/(SOL|AD-FREE|TOKENIZED)/);
 
     return parts.map((part, index) => {

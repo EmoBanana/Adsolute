@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useWallet } from "../WalletContext";
 import { useNavigate, useLocation } from "react-router-dom";
+import { FaBars, FaTimes } from "react-icons/fa";
 import "./Nav.css";
 
 const Nav = ({ children }) => {
   const { walletAddress, setWalletAddress } = useWallet();
   const [menuOpen, setMenuOpen] = useState(false);
   const [adMenuOpen, setAdMenuOpen] = useState(false);
+  const [hamburgerOpen, setHamburgerOpen] = useState(false);
   const [adCount, setAdCount] = useState(0);
   const [tokenCount, setTokenCount] = useState(0);
   const navigate = useNavigate();
@@ -15,16 +17,14 @@ const Nav = ({ children }) => {
   useEffect(() => {
     const savedAdCount = localStorage.getItem("adCount");
     if (savedAdCount) {
-      setAdCount(parseInt(savedAdCount, 10) || 0); // Ensure adCount is a number
+      setAdCount(parseInt(savedAdCount, 10) || 0);
     }
 
     if (walletAddress) {
-      // Retrieve token count specific to the wallet address
       const tokenData =
         JSON.parse(localStorage.getItem("walletTokenData")) || {};
       const walletTokenData = tokenData[walletAddress] || {};
 
-      // Ensure tokenCount is a number
       setTokenCount(walletTokenData.tokenCount || 0);
     }
   }, [walletAddress]);
@@ -35,6 +35,10 @@ const Nav = ({ children }) => {
 
   const toggleAdMenu = () => {
     setAdMenuOpen(!adMenuOpen);
+  };
+
+  const toggleHamburger = () => {
+    setHamburgerOpen(!hamburgerOpen);
   };
 
   const handleDisconnect = async () => {
@@ -70,7 +74,7 @@ const Nav = ({ children }) => {
   const handleAdCountChange = (count) => {
     if (count !== adCount) {
       setAdCount(count);
-      localStorage.setItem("adCount", count); // Save the selected ad count
+      localStorage.setItem("adCount", count);
       setAdMenuOpen(false);
     }
   };
@@ -80,6 +84,9 @@ const Nav = ({ children }) => {
   return (
     <div className="homepage">
       <header className="nav-bar">
+        <button className="hamburger" onClick={toggleHamburger}>
+          {hamburgerOpen ? <FaTimes /> : <FaBars />}
+        </button>
         <div className="site-title" onClick={() => navigate("/home")}>
           Ad<span className="text-gradient">SOL</span>ute.
         </div>
@@ -87,7 +94,6 @@ const Nav = ({ children }) => {
           <input type="text" className="search-bar" placeholder="Search..." />
         </div>
         <h1 className="tokenCount">{Number(tokenCount)} Tokens</h1>{" "}
-        {/* Ensure tokenCount is a number */}
         <button className="ads-button" onClick={toggleAdMenu}>
           Ads
         </button>
@@ -149,8 +155,8 @@ const Nav = ({ children }) => {
           )}
         </div>
       </header>
-      <div className="main-content">
-        <div className="side-bar">
+      <div className={`main-content ${hamburgerOpen ? "open" : ""}`}>
+        <div className={`side-bar ${hamburgerOpen ? "show" : ""}`}>
           <button
             className={`side-bar-button ${
               currentPath === "/home" ? "active" : ""

@@ -176,9 +176,9 @@
 }
 
 .side-bar {
-  max-width: 200px; /* Adjust the width of the side bar */
+  max-width: 200px;
   width: 100%;
-  height: calc(100vh - 10rem); /* Full height minus header height */
+  height: calc(100vh - 10rem);
   padding: 1rem;
   margin-top: 2rem;
 }
@@ -207,7 +207,7 @@
 }
 
 .side-bar-button.active:hover {
-  background-color: #e0d4b3; /* Slightly different color to indicate it's hovered */
+  background-color: #e0d4b3;
 }
 
 .side-bar-title {
@@ -232,4 +232,153 @@
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: black;
+  margin-left: 1rem;
+  margin-top: 1.1rem;
+}
+
+@media (max-width: 1024px) {
+  .nav-bar {
+    background-color: white;
+    padding-bottom: 1rem;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .side-bar {
+    display: none;
+    background: white;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .side-bar-button {
+    font-size: 0.8rem;
+    width: 150px;
+  }
+
+  .side-bar-title {
+    font-size: 0.9rem;
+  }
+
+  .side-bar.show {
+    display: block;
+    transform: translateX(0);
+  }
+
+  .tokenCount {
+    font-size: 1.2rem;
+  }
+
+  .ads-button {
+    font-size: 0.8rem;
+  }
+
+  .ads-menu {
+    font-size: 0.8rem;
+    right: 15.2rem;
+    margin-top: 0;
+  }
+
+  .upload-button {
+    font-size: 0.8rem;
+  }
+
+  .wallet-address-container {
+    margin-right: 2%;
+  }
+
+  .wallet-address {
+    font-size: 0.8rem;
+    text-wrap: nowrap;
+  }
+
+  .wallet-menu {
+    right: 0.7rem;
+  }
+
+  .wallet-menu button {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-bar {
+    background-color: white;
+    padding-bottom: 1rem;
+  }
+
+  .site-title {
+    font-size: 1.2rem;
+  }
+
+  .hamburger {
+    display: block;
+    font-size: 1.2rem;
+    margin-top: 0.8rem;
+  }
+
+  .search-bar {
+    display: none;
+  }
+
+  .side-bar {
+    display: none;
+    background: white;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .side-bar-button {
+    font-size: 0.8rem;
+    width: 120px;
+  }
+
+  .side-bar-title {
+    font-size: 0.9rem;
+  }
+
+  .side-bar.show {
+    display: block;
+    transform: translateX(0);
+  }
+
+  .tokenCount {
+    display: none;
+  }
+
+  .ads-button {
+    display: none;
+  }
+
+  .upload-button {
+    display: none;
+  }
+
+  .wallet-address-container {
+    margin-right: 10%;
+  }
+
+  .wallet-address {
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .wallet-menu {
+    right: 0.7rem;
+  }
+
+  .wallet-menu button {
+    font-size: 0.8rem;
+  }
 }

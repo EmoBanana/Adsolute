@@ -30,9 +30,9 @@
 
 .nft img {
   width: 90%;
-  height: 60%; /* Adjust to maintain aspect ratio */
-  object-fit: cover; /* Ensure images cover the area without distortion */
-  border-bottom: 2px solid #ccc; /* Border below the image */
+  height: 60%;
+  object-fit: cover;
+  border-bottom: 2px solid #ccc;
 }
 
 .market-title-container-text h1 {

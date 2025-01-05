@@ -58,3 +58,30 @@
   line-height: 0.2rem;
   color: #5f5858;
 }
+
+@media (max-width: 768px) {
+  .video-row {
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+
+  .video {
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .title-container .creator {
+    width: 24px;
+    height: 24px;
+    margin-right: 6px;
+  }
+
+  .video h1 {
+    font-size: 0.9rem;
+  }
+
+  .video h2 {
+    font-size: 0.75rem;
+  }
+}
